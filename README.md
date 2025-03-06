@@ -1,0 +1,1 @@
+Reposity of Lab Tasks of Artificial Intelligence Course
