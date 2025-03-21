@@ -1,6 +1,6 @@
 Repository of Lab Tasks of Artificial Intelligence Course
 
-#Algorithms
+# Algorithms
 
 BestFirstSearch
 Hill Climbing - Confused on 2d array
