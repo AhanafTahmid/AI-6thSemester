@@ -1,9 +1,14 @@
-# Create a 2D array (list of lists)
-matrix = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-]
+# def sum(a, b):
+#     return a+b
+# print(sum(1,3))
 
-for row1 in range(9):
-    print(row1)
+#10,12,123
+# x = input()
+# li = x.split(',')
+# ans = 0
+# for val in li:
+#     ans+= (int(val))
+# print(ans)
+
+# li = [i for i in range(1, 5)]
+# print(li)
