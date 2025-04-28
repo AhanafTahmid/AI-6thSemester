@@ -1,51 +1,50 @@
 #https://www.youtube.com/watch?v=rHUWHx-5Hao
 
-import heapq
+from queue import PriorityQueue
 
-class Graph:
-    def __init__(self):
-        self.graph = {}  # Adjacency list
+def ucs(start, goal, graph):
+    visit = set()  # To keep track of visited nodes
+    pq = PriorityQueue()  # Priority Queue to process nodes by minimum cost
+    pq.put((0, start, []))  # (cost, node, path)
 
-    def add_edge(self, node, neighbor, cost):
-        if node not in self.graph:
-            self.graph[node] = []
-        self.graph[node].append((neighbor, cost))
+    while not pq.empty():
+        cost, node, path = pq.get()  # Get node with the lowest accumulated cost
 
-    def uniform_cost_search(self, start, goal):
-        # Priority queue (min-heap) to store (cost, node, path)
-        pq = []
-        heapq.heappush(pq, (0, start, []))  # (cost, node, path)
+        if node in visit:
+            continue  # Skip if the node has already been visited
 
-        visited = set()
+        path = path + [node]  # Add the current node to the path
+        visit.add(node)  # Mark the node as visited
 
-        while pq:
-            cost, current_node, path = heapq.heappop(pq)  # Get the node with the lowest cost
+        print(node, end=" ")  # Print the node as you visit it
 
-            if current_node in visited:
-                continue  # Skip already visited nodes
-            
-            path = path + [current_node]  # Update path
-            visited.add(current_node)  # Mark node as visited
+        if node == goal:
+            print("\nGoal Reached!")
+            print("Path:", path)
+            print("Total Cost:", cost)
+            return
 
-            if current_node == goal:
-                return path, cost  # Return the shortest path and cost
+        # Process neighbors of the current node
+        for neighbor, edge_cost in graph.get(node, []):
+            if neighbor not in visit:
+                total_cost = cost + edge_cost  # Accumulate the cost
+                pq.put((total_cost, neighbor, path))  # Put the neighbor in the queue with its cost
 
-            for neighbor, edge_cost in self.graph.get(current_node, []):
-                if neighbor not in visited:
-                    heapq.heappush(pq, (cost + edge_cost, neighbor, path))
+    print("\nGoal not reachable!")
+    return "NOT FOUND"
 
-        return None, float('inf')  # No path found
 
-# Example usage
-graph = Graph()
+# Graph Representation (Adjacency List)
+graph = {
+    'A': [('B', 3), ('C', 2)],
+    'B': [('A', 5), ('C', 2), ('D', 2), ('E', 3)],
+    'C': [('A', 5), ('B', 3), ('F', 2), ('G', 4)],
+    'D': [('H', 1), ('I', 99)],
+    'F': [('J', 99)],
+    'G': [('K', 99), ('L', 3)]
+}
 
-graph.add_edge('A', 'B', 80)
-graph.add_edge('A', 'C', 99)
-graph.add_edge('B', 'D', 97)
-graph.add_edge('D', 'G', 101)
-graph.add_edge('C', 'G', 211)
+start = 'A'
+goal = 'H'
 
-start, goal = 'A', 'G'
-path, cost = graph.uniform_cost_search(start, goal)
-print("Shortest path:", path)
-print("Total cost:", cost)
+ucs(start, goal, graph)
