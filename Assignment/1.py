@@ -1,18 +1,18 @@
 def calculate_word_energy(word):
     vowels = "aeiouAEIOU"
-    vowel_count = 0
-    consonant_count = 0
+    vc = 0
+    cc = 0
     
     for char in word:
         if char in vowels:
-            vowel_count += 1
+            vc += 1
         else:
-            consonant_count += 1
+            cc += 1
     word_length = len(word)
 
-    if vowel_count > consonant_count:
+    if vc > cc:
         print("Your word is full of energy!")
-    elif consonant_count > vowel_count:
+    elif cc > vc:
         if word_length % 3 == 0:
             print("Your word has a strong and balanced form.")
         else:
