@@ -58,6 +58,4 @@ def best_first_search(start, goal, graph):
 
     print("\nGoal not reachable!")
 
-start = 'Arad'
-goal = 'Bucharest'
-best_first_search(start, goal, graph)
+best_first_search('Arad', 'Bucharest', graph)
