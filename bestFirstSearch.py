@@ -1,37 +1,50 @@
 from queue import PriorityQueue
 
-def best_first_search(start, goal, graph):
+def best_first_search(start, goal, graph, heuristic):
     visited = set()
     pq = PriorityQueue()
-    pq.put((0, start))  # (priority, node)
+    pq.put((heuristic[start], start))  # Using heuristic as priority
+
     while not pq.empty():
-        cost, node = pq.get() #getout/ dequeing
+        h_val, node = pq.get()
+
         if node in visited:
             continue
 
-        print(node, end=" ") # Print the path
+        print(node, end=" ")  # Print the path
         visited.add(node)
 
         if node == goal:
             print("\nGoal Reached!")
             return
 
-        for neighbor, weight in graph[node]:
+        for neighbor, _ in graph.get(node, []):
             if neighbor not in visited:
-                pq.put((weight, neighbor))  # Priority Queue orders by weight
+                pq.put((heuristic[neighbor], neighbor))  # Use heuristic only
 
     print("\nGoal not reachable!")
 
-# Graph Representation (Adjacency List)
+start = 'A'
+goal = 'G'
+
 graph = {
-    'A': [('B', 3), ('C', 2)],
-    'B': [('A', 5), ('C', 2), ('D', 2), ('E', 3)],
-    'C': [('A', 5), ('B', 3), ('F', 2), ('G', 4)],
-    'D': [('H', 1), ('I', 99)],
-    'F': [('J', 99)],
-    'G': [('K', 99), ('L', 3)]
+    'A': [('B', 1), ('C', 3)],
+    'B': [('D', 3), ('E', 1)],
+    'C': [('F', 5), ('G', 2)],
+    'D': [],
+    'E': [],
+    'F': [],
+    'G': []
 }
 
-start = 'A'
-goal = 'H'
-best_first_search(start, goal, graph)
+heuristic = {
+    'A': 5,
+    'B': 4,
+    'C': 2,
+    'D': 6,
+    'E': 3,
+    'F': 5,
+    'G': 0
+}
+
+best_first_search(start, goal, graph, heuristic)
